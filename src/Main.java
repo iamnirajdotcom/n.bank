@@ -80,12 +80,57 @@ public class Main {
         //write in the file
         writeInsideFile(filepath,data);
         
+        Scanner sc = new Scanner(System.in);
 
-        boolean keepRuning = true;
+        boolean keepRunning = true;
 
-        while(keepRuning){
-            
+        while(keepRunning){
+            System.out.println("Press 0 for Old customer and 1 for new customer and 5 to exit the program");
+            int userInput = ((Scanner) sc).nextInt();
+            if(userInput==5){
+                break;
+            }else if (userNumber==0){
+                // old customer can credit, debit and read account detail
+                System.out.print("PLease enter your accounr number");
+                int oldUserAccountNo = sc.nextInt();
+                // take the accoount number and serch for the account with similar number
+                Accconut oldUserAccount = searchForAccount(filepath,oldUserAccountNo);
 
+                if (oldUserAccount == null){
+                    Sysytem.out.println("Not a valid account number");
+                    continue;
+                }
+                System.out.println("Welcome to central bank of india " + oldUerAccount.getName +"." );
+
+                //now ask to weather credit the money or debit the money or to view the Summary
+                System.out.println("To credit press 2, for debit press 3 and to view account summary press 4");
+                int oldUserInput = sc.nextInt();
+
+                if(oldUserInput == 2){
+                    Sysytem.out.println("Please enter the amount to be credited.")
+                    int amountCredited = sc.nextInt();
+                    oldUserAccount.creditMoney(amountCredited);
+                    
+                    // print the new total amount for the person and restart the loop
+                    system.out.println(oldUserAccount.getTotalBalance());
+                    system.out.println("thanku for using our banking services");
+                } else if (oldUserInput == 3){
+                    Sysytem.out.println("Please enter the amount to be debited.")
+                    int amountDebited = sc.nextInt();
+                    oldUserAccount.debitMoney(amountdebited);
+                    
+                    // print the new total amount for the person and restart the loop
+                    Sysytem.out.println(oldUserAccount.getTotalBalance());
+                    system.out.println("thanku for using our banking services")
+                } else if(oldUserInput==4){
+                    // we need to print the account summary
+                    oldUserAccount.accoountSummary();
+                    system.out.println("thanku for using our banking services")
+                    
+                }
+            }else if (userNumber==1){
+
+            }
         }
 
     }
