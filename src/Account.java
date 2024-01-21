@@ -1,14 +1,43 @@
 import java.util.*;
 public class Account {
 
-    public int accountNumber;
-    public String name ;
-    public int totalBalance;
+    private int accountNumber;
+    private String name ;
+    private int totalBalance;
 
     Random random = new Random();
+    public Account(String name , int totalBalance) {
+
+        int min = 10000000;
+        int max = 99999999;
+        accountNumber = random.nextInt(max - min + 1) + min;
+        this.name = name;
+        this.totalBalance = totalBalance;
+    }
+
+    //getter and setter
+     public void setName(String name){
+        this.name = name;
+     }
+
+     public void setTotalBalance(int balance){
+        this.totalBalance = balance;
+     }
+
+     public int getAccountNumber(){
+        return accountNumber;
+     }
+
+     public String getName(){
+        return name;
+     }
+
+     public int getTotalBalance(){
+        return totalBalance;
+     }
 
 
-    //method 1
+        //method 1
     // money credited
     public void creditMoney(int creditAmount){
         totalBalance = totalBalance+creditAmount;
@@ -35,15 +64,7 @@ public class Account {
 
 
 
-     //constructor
-    public Account(String name , int totalBalance){
 
-        int min = 10000000;
-        int max = 99999999;
-        accountNumber = random.nextInt(max-min + 1) + min;
-        this.name = name;
-        this.totalBalance = totalBalance;
-    }
 
 
 }
