@@ -15,6 +15,12 @@ public class Account {
         this.totalBalance = totalBalance;
     }
 
+    public Account(int accountNumber , String name, int totalBalance){
+        this.accountNumber = accountNumber;
+        this.name = name;
+        this.totalBalance = totalBalance;
+    }
+
     //getter and setter
      public void setName(String name){
         this.name = name;

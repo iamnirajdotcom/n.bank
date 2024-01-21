@@ -9,6 +9,8 @@ public class Main {
 
     public static void main(String[] args){
 
+        // stage 1 development
+
 //        System.out.println(">>>>> welcome to central bank of India <<<<<");
 //        Scanner sc = new Scanner(System.in);
 //        List<Account> bankDatabase = new ArrayList<Account>();
@@ -70,15 +72,6 @@ public class Main {
 
         // file location
         String filepath = "C:\\Users\\nkg\\IdeaProjects\\LearnFileReading\\src\\data\\database.csv";
-
-        // making a file
-        createFile(filepath);
-
-        // read a file
-        readTheFile(filepath);
-
-        //write in the file
-        writeInsideFile(filepath,data);
         
         Scanner sc = new Scanner(System.in);
 
@@ -86,49 +79,51 @@ public class Main {
 
         while(keepRunning){
             System.out.println("Press 0 for Old customer and 1 for new customer and 5 to exit the program");
-            int userInput = ((Scanner) sc).nextInt();
+            int userInput = sc.nextInt();
             if(userInput==5){
-                break;
-            }else if (userNumber==0){
+                keepRunning = false;
+            }else if (userInput==0){
                 // old customer can credit, debit and read account detail
-                System.out.print("PLease enter your accounr number");
+                System.out.print("PLease enter your account number");
                 int oldUserAccountNo = sc.nextInt();
-                // take the accoount number and serch for the account with similar number
-                Accconut oldUserAccount = searchForAccount(filepath,oldUserAccountNo);
+                // take the account number and search for the account with similar number
+                Account oldUserAccount = searchForAccount(filepath,oldUserAccountNo);
 
                 if (oldUserAccount == null){
-                    Sysytem.out.println("Not a valid account number");
+                    System.out.println("Not a valid account number");
                     continue;
                 }
-                System.out.println("Welcome to central bank of india " + oldUerAccount.getName +"." );
+                System.out.println("Welcome to central bank of india " + oldUserAccount.getName() +"." );
 
-                //now ask to weather credit the money or debit the money or to view the Summary
+                //now ask whether credit the money or debit the money or to view the Summary
                 System.out.println("To credit press 2, for debit press 3 and to view account summary press 4");
                 int oldUserInput = sc.nextInt();
 
                 if(oldUserInput == 2){
-                    Sysytem.out.println("Please enter the amount to be credited.")
+                    System.out.println("Please enter the amount to be credited.");
                     int amountCredited = sc.nextInt();
                     oldUserAccount.creditMoney(amountCredited);
                     
                     // print the new total amount for the person and restart the loop
-                    system.out.println(oldUserAccount.getTotalBalance());
-                    system.out.println("thanku for using our banking services");
+                    System.out.println(oldUserAccount.getTotalBalance());
+                    System.out.println("thank you for using our banking services");
+
                 } else if (oldUserInput == 3){
-                    Sysytem.out.println("Please enter the amount to be debited.")
+                    System.out.println("Please enter the amount to be debited.");
                     int amountDebited = sc.nextInt();
-                    oldUserAccount.debitMoney(amountdebited);
+                    oldUserAccount.debitMoney(amountDebited);
                     
                     // print the new total amount for the person and restart the loop
-                    Sysytem.out.println(oldUserAccount.getTotalBalance());
-                    system.out.println("thanku for using our banking services")
+                    System.out.println(oldUserAccount.getTotalBalance());
+                    System.out.println("thank you for using our banking services");
+
                 } else if(oldUserInput==4){
                     // we need to print the account summary
-                    oldUserAccount.accoountSummary();
-                    system.out.println("thanku for using our banking services")
+                    oldUserAccount.accountSummary();
+                    System.out.println("thank you for using our banking services");
                     
                 }
-            }else if (userNumber==1){
+            }else if (userInput==1){
 
                 // for new customer we need to ask for there name and the capital they want to use to open the account
                 System.out.println("--------------------------------------------------------------------------");
@@ -138,23 +133,23 @@ public class Main {
                 System.out.println("Please enter your name");
                 String newUserName = sc.nextLine();
                 System.out.println("Please enter the amount with which you want to open an account with");
-                int newUserIntialCapital = sc.nextInt();
+                int newUserInitialCapital = sc.nextInt();
 
-                // we have the name and the intial capital now create an account an return the account no
-                Account account = new Accconut(newUserName, newUserIntialCapital);
+                // we have the name and the initial capital now create an account an return the account no
+                Account account = new Account(newUserName, newUserInitialCapital);
                 int newUserAccountNo = account.getAccountNumber();
                 System.out.println("Hello "+ newUserName+" your account number is " + newUserAccountNo);
 
                 // now we need to  write this data inside the document 
                 // so collect teh data
-                String accountDetail = newUserAccountNo + "," + newUserName + "," +newUserIntialCapital;
+                String accountDetail = newUserAccountNo + "," + newUserName + "," +newUserInitialCapital;
                 // first we need to make a list of string to be saved in the object
-                List<String> data = new ArrayList();
+                List<String> data = new ArrayList<>();
                 data.add(accountDetail);
                 writeInsideFile(filepath, data);
 
                 // now our data is saved so tell him thanku
-                Sysytem.out.println("Thanku for opening the bank account with us");
+                System.out.println("Thank you for opening the bank account with us");
                 continue;
 
 
@@ -162,6 +157,19 @@ public class Main {
             }
         }
 
+    }
+
+    private static Account searchForAccount(String filepath, int oldUserAccountNo) {
+        // lest write program to search for the account from the document
+        // load the data from the file into an List
+        List<Account> accounts  = readTheFile(filepath);
+
+        for(Account data: accounts){
+            if(oldUserAccountNo == data.getAccountNumber()){
+                return data;
+            }
+        }
+        return null;
     }
 
     private static void writeInsideFile(String filepath, List<String> data) {
@@ -174,19 +182,22 @@ public class Main {
         }
     }
 
-    private static void readTheFile(String filepath) {
+    private static List<Account> readTheFile(String filepath) {
         Path path = Paths.get(filepath);
+        List<Account> accounts = new ArrayList<>();
 
         try{
             List<String> lines = Files.readAllLines(path);
             for(String line : lines){
                 String[] details = line.split(",");
-                System.out.println("Account number" + details[0]+ ", Name " + details[1] + ", Bank Balance "+ details[2]);
+                Account account = new Account(Integer.parseInt(details[0]),details[1],Integer.parseInt(details[1]));
+                accounts.add(account);
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return accounts;
     }
 
     private static void createFile(String filepath) {
