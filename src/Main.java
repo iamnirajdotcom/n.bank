@@ -72,7 +72,7 @@ public class Main {
 
         // file location
         String filepath = "C:\\Users\\nkg\\IdeaProjects\\LearnFileReading\\src\\data\\database.csv";
-        
+        createFile(filepath);
         Scanner sc = new Scanner(System.in);
 
         boolean keepRunning = true;
@@ -150,9 +150,6 @@ public class Main {
 
                 // now our data is saved so tell him thanku
                 System.out.println("Thank you for opening the bank account with us");
-                continue;
-
-
 
             }
         }
@@ -212,12 +209,12 @@ public class Main {
     }
 
     // Method to find account from the Database
-    public static Account findAccount(List<Account> BankDatabase, int accountNo ){
-        for(Account account : BankDatabase){
-            if(account.getAccountNumber() == accountNo){
-                return account;
-            }
-        }
-        return null;
-    }
+//    public static Account findAccount(List<Account> BankDatabase, int accountNo ){
+//        for(Account account : BankDatabase){
+//            if(account.getAccountNumber() == accountNo){
+//                return account;
+//            }
+//        }
+//        return null;
+//    }
 }
