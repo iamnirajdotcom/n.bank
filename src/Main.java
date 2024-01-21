@@ -165,9 +165,9 @@ public class Main {
     }
 
     private static void updateFile(String filepath, int accountNo, int newBalance) {
-
+        Path path = Paths.get(filepath);
         try {
-            List<String> lines = Files.readAllLines(Paths.get(filepath));
+            List<String> lines = Files.readAllLines(path);
             // parse karo and change that particular line
             int lineNoTChange = 0;
             for(String line : lines){
@@ -182,7 +182,7 @@ public class Main {
                 lineNoTChange++;
             }
 
-            Files.write(Paths.get(filepath),lines);
+            Files.write(path,lines);
 
         }
         catch( Exception e) {
@@ -240,7 +240,7 @@ public class Main {
 
         } catch (Exception e){
             System.out.println("File is created");
-            System.out.println(e.toString());
+            System.out.println(e.getMessage());
         }
     }
 
