@@ -71,7 +71,7 @@ public class Main {
         // using the Files class
 
         // file location
-        String filepath = "C:\\Users\\nkg\\IdeaProjects\\LearnFileReading\\src\\data\\database.csv";
+        String filepath = "C:\\Users\\nkg\\IdeaProjects\\Banking\\src\\data\\database.csv";
         createFile(filepath);
         Scanner sc = new Scanner(System.in);
 
@@ -80,6 +80,7 @@ public class Main {
         while(keepRunning){
             System.out.println("Press 0 for Old customer and 1 for new customer and 5 to exit the program");
             int userInput = sc.nextInt();
+            sc.nextLine();
             if(userInput==5){
                 keepRunning = false;
             }else if (userInput==0){
@@ -181,6 +182,8 @@ public class Main {
                 lineNoTChange++;
             }
 
+            Files.write(Paths.get(filepath),lines);
+
         }
         catch( Exception e) {
             System.out.println(e.getMessage());
@@ -219,7 +222,7 @@ public class Main {
             List<String> lines = Files.readAllLines(path);
             for(String line : lines){
                 String[] details = line.split(",");
-                Account account = new Account(Integer.parseInt(details[0]),details[1],Integer.parseInt(details[1]));
+                Account account = new Account(Integer.parseInt(details[0]),details[1],Integer.parseInt(details[2]));
                 accounts.add(account);
             }
         }
@@ -234,9 +237,10 @@ public class Main {
 
         try {
             Files.createFile(path);
-            System.out.println("File is created");
+
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("File is created");
+            System.out.println(e.toString());
         }
     }
 
