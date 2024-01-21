@@ -105,8 +105,11 @@ public class Main {
                     oldUserAccount.creditMoney(amountCredited);
                     
                     // print the new total amount for the person and restart the loop
-                    System.out.println(oldUserAccount.getTotalBalance());
+                    System.out.println("Net remaining balance "+oldUserAccount.getTotalBalance());
                     System.out.println("thank you for using our banking services");
+
+                    // money is debited, but we need to update the file also
+                    updateFile(filepath, oldUserAccountNo, oldUserAccount.getTotalBalance());
 
                 } else if (oldUserInput == 3){
                     System.out.println("Please enter the amount to be debited.");
@@ -114,8 +117,12 @@ public class Main {
                     oldUserAccount.debitMoney(amountDebited);
                     
                     // print the new total amount for the person and restart the loop
-                    System.out.println(oldUserAccount.getTotalBalance());
+                    System.out.println("Net remaining balance "+oldUserAccount.getTotalBalance());
                     System.out.println("thank you for using our banking services");
+
+                    // money is debited, but we need to update the file also
+                    updateFile(filepath, oldUserAccountNo, oldUserAccount.getTotalBalance());
+                    
 
                 } else if(oldUserInput==4){
                     // we need to print the account summary
@@ -135,7 +142,7 @@ public class Main {
                 System.out.println("Please enter the amount with which you want to open an account with");
                 int newUserInitialCapital = sc.nextInt();
 
-                // we have the name and the initial capital now create an account an return the account no
+                // we have the name and the initial capital now create an account and return the account no
                 Account account = new Account(newUserName, newUserInitialCapital);
                 int newUserAccountNo = account.getAccountNumber();
                 System.out.println("Hello "+ newUserName+" your account number is " + newUserAccountNo);
@@ -148,7 +155,7 @@ public class Main {
                 data.add(accountDetail);
                 writeInsideFile(filepath, data);
 
-                // now our data is saved so tell him thanku
+                // now our data is saved so tell him thank you
                 System.out.println("Thank you for opening the bank account with us");
 
             }
@@ -156,9 +163,34 @@ public class Main {
 
     }
 
+    private static void updateFile(String filepath, int accountNo, int newBalance) {
+
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filepath));
+            // parse karo and change that particular line
+            int lineNoTChange = 0;
+            for(String line : lines){
+
+                String[] st = line.split(",");
+                if(Integer.parseInt(st[0])==accountNo){
+                    // we found the line in lines
+                    // make changes in lines
+                    String newContent = st[0]+","+st[1]+","+newBalance;
+                    lines.set(lineNoTChange,newContent);
+                }
+                lineNoTChange++;
+            }
+
+        }
+        catch( Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
     private static Account searchForAccount(String filepath, int oldUserAccountNo) {
         // lest write program to search for the account from the document
-        // load the data from the file into an List
+        // load the data from the file into a List
         List<Account> accounts  = readTheFile(filepath);
 
         for(Account data: accounts){
