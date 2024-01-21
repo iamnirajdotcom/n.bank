@@ -130,6 +130,35 @@ public class Main {
                 }
             }else if (userNumber==1){
 
+                // for new customer we need to ask for there name and the capital they want to use to open the account
+                System.out.println("--------------------------------------------------------------------------");
+                System.out.println("Hi, there we are happy that you decided to open the bank account with us");
+                System.out.println("--------------------------------------------------------------------------");
+
+                System.out.println("Please enter your name");
+                String newUserName = sc.nextLine();
+                System.out.println("Please enter the amount with which you want to open an account with");
+                int newUserIntialCapital = sc.nextInt();
+
+                // we have the name and the intial capital now create an account an return the account no
+                Account account = new Accconut(newUserName, newUserIntialCapital);
+                int newUserAccountNo = account.getAccountNumber();
+                System.out.println("Hello "+ newUserName+" your account number is " + newUserAccountNo);
+
+                // now we need to  write this data inside the document 
+                // so collect teh data
+                String accountDetail = newUserAccountNo + "," + newUserName + "," +newUserIntialCapital;
+                // first we need to make a list of string to be saved in the object
+                List<String> data = new ArrayList();
+                data.add(accountDetail);
+                writeInsideFile(filepath, data);
+
+                // now our data is saved so tell him thanku
+                Sysytem.out.println("Thanku for opening the bank account with us");
+                continue;
+
+
+
             }
         }
 
